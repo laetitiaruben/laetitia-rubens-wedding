@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laetitia & Ruben · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #F2EBE0;
+  --white:   #FAF6F0;
+  --terra:   #C8693A;
+  --terra-dk:#A0501E;
+  --terra-lt:#D4956A;
+  --text:    #2A1608;
+  --muted:   #7A5038;
+  --line:    rgba(200,105,58,0.15);
+  --f:       'Fraunces', serif;
+  --ease:    cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--f); font-weight: 300;
+  font-size: 16px; line-height: 1.75;
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  font-variation-settings: "WONK" 0, "opsz" 72;
+}
+
+/* ══ LOGO ══ */
+.logo-svg-sm { width: 20px; height: 28px; flex-shrink: 0; }
+.logo-svg-lg { width: 52px; height: 72px; }
+.logo-svg-cover { width: 40px; height: 55px; }
+
+/* ══ COVER ══ */
+#cover {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 6vh;
+  /* dezoom : center 40% pour voir les deux visages */
+  background-image: url('photo1.jpg');
+  background-size: cover; background-position: center 40%;
+  transition: transform 1.1s cubic-bezier(0.76,0,0.24,1), opacity 0.25s ease 0.9s;
+}
+#cover::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(20,10,4,0.48);
+  transition: opacity 0.9s ease;
+}
+#cover.revealing::before { opacity: 0; }
+#cover.slide-up { transform: translateY(-100%); opacity: 0; }
+#cover.gone { display: none; }
+
+.cover-block {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  width: min(500px, 92vw);
+  background: rgba(12,6,2,0.52);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  padding: 2rem 2.5rem 1.8rem;
+  border: 1px solid rgba(250,246,240,0.1);
+  transition: opacity 0.45s ease;
+}
+
+.cover-label {
+  font-size: clamp(0.72rem, 2.5vw, 0.92rem); font-weight: 400;
+  letter-spacing: 0.42em; text-transform: uppercase;
+  color: #FAF6F0; opacity: 0.85; margin-bottom: 1.3rem;
+  display: flex; align-items: center; gap: 0.9rem;
+}
+.cover-label::before, .cover-label::after {
+  content: ''; display: block; width: 20px; height: 1px;
+  background: rgba(232,208,176,0.4);
+}
+
+/* Prénoms — grand, lisible mobile et desktop */
+.cover-title {
+  font-size: clamp(2.4rem, 11vw, 6rem);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -0.02em; color: #C8693A; text-align: center;
+}
+/* Tiret simple entre les prénoms */
+.cover-dash {
+  display: block; font-weight: 200; font-style: normal;
+  font-size: 0.3em; letter-spacing: 0.1em;
+  color: rgba(200,105,58,0.5); line-height: 1.4;
+}
+
+/* Prénoms hébraïques — Malka et Moshe */
+.cover-heb {
+  font-style: italic; font-weight: 300;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  color: #E8D0B0;
+  margin-top: 0.8rem; direction: rtl; text-align: center;
+}
+
+.cover-date {
+  font-size: clamp(0.72rem, 2.2vw, 0.88rem); font-weight: 400;
+  letter-spacing: 0.42em; text-transform: uppercase;
+  color: #E8D0B0; margin-top: 1rem; text-align: center;
+}
+
+.cover-sep { width: 32px; height: 1px; background: rgba(250,246,240,0.2); margin: 1.5rem 0 1.2rem; }
+
+.cover-btn {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  padding: 0.8rem 2rem;
+  border: 1px solid rgba(232,208,176,0.35);
+  background: rgba(232,208,176,0.06);
+  color: #E8D0B0; font-family: var(--f); font-weight: 400;
+  font-size: clamp(0.65rem, 2.5vw, 0.78rem);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.25s, border-color 0.25s, transform 0.2s;
+}
+.cover-btn:hover { background: rgba(200,105,58,0.4); border-color: rgba(200,105,58,0.65); transform: translateY(-2px); }
+
+/* Logo LR en bas de la cover */
+.cover-logo-bottom {
+  position: relative; z-index: 2;
+  margin-top: 1.4rem;
+  opacity: 0.45;
+  transition: opacity 0.45s ease;
+}
+
+.cover-line {
+  width: 1px; height: 32px; margin: 0.9rem auto 0;
+  background: linear-gradient(to bottom, rgba(232,208,176,0.4), transparent);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.3}50%{opacity:1} }
+
+/* ══ NAV ══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: 52px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  opacity: 0; pointer-events: none;
+  transition: background 0.3s, box-shadow 0.3s, opacity 0.5s 0.35s;
+}
+nav.visible { opacity: 1; pointer-events: auto; }
+nav.scrolled { background: rgba(242,235,224,0.96); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+.nav-logo {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  color: white; transition: color 0.3s; text-decoration: none;
+}
+nav.scrolled .nav-logo { color: var(--terra); }
+.nav-logo svg { color: white; transition: color 0.3s; }
+nav.scrolled .nav-logo svg { color: var(--terra); }
+nav ul { list-style: none; display: flex; gap: 1.8rem; }
+nav a {
+  font-family: var(--f); font-size: 0.68rem; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s;
+}
+nav a:hover { color: white; }
+nav.scrolled a { color: var(--muted); }
+nav.scrolled a:hover { color: var(--terra); }
+
+/* ══ PHOTO 1 encadrée — après le slide ══ */
+.photo1-wrap {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  display: flex; justify-content: center;
+}
+.photo1 {
+  width: min(560px, 90vw);  /* paysage 4:3 */
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 36px rgba(42,22,8,0.1);
+}
+.photo1 div {
+  width: 100%; height: 100%;
+  background-image: url('photo1.jpg');
+  background-size: cover;
+  background-position: center 40%; /* même cadrage que la cover */
+}
+
+/* ══ SHARED ══ */
+.s-label {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem; opacity: 0.7;
+}
+.s-label::after { content:''; flex:1; height:1px; background:var(--line); }
+.s-title {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600; font-style: normal;
+  color: var(--terra); letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1.8rem;
+}
+.info-block { display: flex; flex-direction: column; }
+.info-row { display: flex; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+.info-row:first-child { border-top: 1px solid var(--line); }
+.info-key {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted); width: 68px; flex-shrink: 0; opacity: 0.6; padding-top: 2px;
+}
+.info-val { font-size: 0.95rem; font-weight: 300; color: var(--text); line-height: 1.6; letter-spacing: 0.02em; }
+
+/* ══ NOMS ══ */
+.names-sec {
+  background: var(--bg); padding: 3rem 2rem 2.5rem;
+  text-align: center; border-bottom: 1px solid var(--line); position: relative;
+}
+.beit-ha { position: absolute; top: 1.1rem; right: 1.8rem; font-style: italic; font-size: 0.78rem; color: var(--text); opacity: 0.75; }
+.names-eyebrow {
+  font-size: 0.58rem; font-weight: 400; letter-spacing: 0.38em; text-transform: uppercase;
+  color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin-bottom: 1.4rem; opacity: 0.65;
+}
+.names-eyebrow::before, .names-eyebrow::after { content: ''; display: block; width: 26px; height: 1px; background: var(--line); }
+.names-display {
+  font-size: clamp(2.4rem, 8vw, 5.2rem);
+  font-weight: 600; font-style: normal; letter-spacing: -0.02em; line-height: 0.95;
+  color: var(--terra);
+}
+.names-sep { display: block; width: 48px; height: 1.5px; background: var(--terra-lt); opacity: 0.5; margin: 0.8rem auto; }
+.names-heb { font-style: italic; font-weight: 300; font-size: 0.92rem; color: var(--muted); margin-top: 0.5rem; direction: rtl; opacity: 0.6; }
+.names-dates { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-top: 2.2rem; flex-wrap: wrap; }
+.nd { text-align: center; }
+.nd-num { font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 600; color: var(--terra); line-height: 1; letter-spacing: -0.02em; }
+.nd-month { font-style: italic; font-weight: 300; font-size: 0.88rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+.nd-sep { width: 1px; height: 38px; background: var(--line); }
+
+/* ══ FAIRE-PART ══ */
+.fairepart { background: var(--white); padding: 2.8rem 2rem; border-bottom: 1px solid var(--line); }
+.fp { max-width: 720px; margin: 0 auto; text-align: center; }
+.fp-fams { display: flex; justify-content: center; gap: 3.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.fp-fam { font-style: normal; font-weight: 300; font-size: 1.05rem; color: var(--muted); line-height: 1.85; }
+.fp-orn { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 1rem 0; }
+.fp-orn-line { flex:1; max-width:100px; height:1px; background:var(--line); }
+.fp-hr { border: none; border-top: 1px solid var(--line); width: 80px; margin: 1rem auto; }
+.fp-joy { font-style: normal; font-weight: 300; font-size: 1.05rem; color: var(--muted); line-height: 1.85; margin-bottom: 0.6rem; }
+.fp-names-big { font-weight: 600; font-style: normal; font-size: 1.5rem; color: var(--terra); margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+.fp-names-line { width: 40px; height: 1px; background: var(--terra-lt); opacity: 0.4; margin: 0.5rem auto 0.5rem; }
+.fp-names-heb { font-style: italic; font-weight: 300; font-size: 1rem; color: var(--muted); direction: rtl; opacity: 0.7; margin-bottom: 1.2rem; }
+.fp-events { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+.fp-ev-name { font-style: italic; font-weight: 500; font-size: 0.98rem; color: var(--terra); margin-bottom: 0.3rem; }
+.fp-ev-detail { font-weight: 300; font-size: 0.86rem; color: var(--text); line-height: 1.8; opacity: 0.72; }
+.fp-ev-detail strong { color: var(--terra); font-weight: 500; }
+
+/* ══ MAIRIE ══ */
+.mairie-sec { padding: 3rem 2rem; background: var(--white); border-bottom: 1px solid var(--line); }
+.two-col { max-width: 880px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: start; }
+.two-col-left { padding-right: 3rem; }
+.two-col-right { padding-left: 3rem; }
+.two-col-right-inner { padding-bottom: 1.6rem; }
+.after-tag { font-size: 0.56rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.8rem; display: block; opacity: 0.65; }
+.after-address { font-weight: 300; font-size: 0.92rem; letter-spacing: 0.02em; color: var(--text); margin-top: 0.6rem; line-height: 1.8; }
+
+/* ══ HOUPPA ══ */
+.houppa-sec { padding: 3rem 2rem; background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.houppa-content { max-width: 880px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+.houppa-card { padding: 1.8rem; background: var(--bg); border: 1px solid var(--line); }
+.nav-btns { display: flex; gap: 0.8rem; margin-top: 1.3rem; flex-wrap: wrap; }
+.maps-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.65rem 1.2rem; border: 1px solid var(--terra); color: var(--terra);
+  font-family: var(--f); font-weight: 400; font-size: 0.66rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; transition: background 0.2s, color 0.2s;
+}
+.maps-btn:hover { background: var(--terra); color: white; }
+.maps-btn svg { flex-shrink: 0; }
+
+/* ══ PHOTO 2 ══ */
+.photo2-wrap { padding: 2.5rem 2rem; background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; justify-content: center; }
+.photo2 { width: min(320px, 84vw); aspect-ratio: 3/4; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 8px 36px rgba(42,22,8,0.1); }
+.photo2 div { width: 100%; height: 100%; background-image: url('photo2.jpg'); background-size: cover; background-position: center center; }
+
+/* ══ RSVP ══ */
+.rsvp-sec { background: var(--white); padding: 3rem 2rem; border-top: 1px solid var(--line); }
+.rsvp-wrap { max-width: 540px; margin: 0 auto; }
+.rsvp-intro { font-style: italic; font-weight: 300; font-size: 0.95rem; color: var(--muted); line-height: 1.85; margin-bottom: 0.4rem; }
+.rsvp-dl { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 2.2rem; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.f-cell { background: var(--bg); padding: 1rem 1.2rem 0.8rem; }
+.f-cell.full { grid-column: 1/-1; }
+.f-lbl { font-size: 0.54rem; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; color: var(--terra); display: block; margin-bottom: 0.42rem; opacity: 0.8; }
+.f-in { background: transparent; border: none; border-bottom: 1.5px solid rgba(42,22,8,0.2); outline: none; font-family: var(--f); font-weight: 400; font-size: 0.9rem; color: var(--text); padding: 0.3rem 0 0.4rem; width: 100%; transition: border-color 0.2s; }
+.f-in:focus { border-bottom-color: var(--terra); }
+textarea.f-in { resize: none; height: 70px; }
+.pres-grp { background: var(--bg); padding: 1.3rem 1.2rem; margin-bottom: 2px; }
+.pres-title { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 0.9rem; }
+.pres-title span { opacity: 0.6; }
+.r-opts { display: flex; flex-direction: column; gap: 0; }
+.r-lbl { display: flex; align-items: center; gap: 0.8rem; font-weight: 300; font-size: 0.88rem; color: var(--text); cursor: pointer; padding: 0.65rem 0.8rem; border-bottom: 1px solid rgba(200,105,58,0.1); transition: background 0.15s; }
+.r-lbl:first-of-type { border-top: 1px solid rgba(200,105,58,0.1); }
+.r-lbl:hover { background: rgba(200,105,58,0.04); }
+.r-lbl input[type="radio"] { accent-color: var(--terra); width: 14px; height: 14px; flex-shrink: 0; }
+.guests-show { padding: 0.75rem 0.8rem 0.4rem; background: rgba(200,105,58,0.04); }
+
+.g-lbl { font-size: 0.52rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.3rem; }
+.g-in { width: 78px; padding: 0.32rem 0; background: transparent; border: none; border-bottom: 1.5px solid rgba(42,22,8,0.2); font-family: var(--f); font-size: 0.88rem; color: var(--text); outline: none; transition: border-color 0.2s; }
+.g-in:focus { border-bottom-color: var(--terra); }
+.nb-row { background: var(--bg); padding: 1.1rem 1.2rem; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; }
+.nb-lbl { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; color: var(--terra); opacity: 0.8; }
+.nb-in { width: 68px; padding: 0.32rem 0; background: transparent; border: none; border-bottom: 1.5px solid rgba(42,22,8,0.2); font-family: var(--f); font-size: 0.88rem; color: var(--text); outline: none; text-align: center; transition: border-color 0.2s; }
+.nb-in:focus { border-bottom-color: var(--terra); }
+.btn-send { display: inline-flex; align-items: center; margin-top: 1.8rem; padding: 1rem 2.8rem; background: var(--text); color: var(--white); border: none; font-family: var(--f); font-weight: 400; font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+.btn-send:hover { background: var(--terra); transform: translateY(-2px); }
+.ok-msg { display: none; margin-top: 1.3rem; padding: 1rem 1.2rem; background: var(--bg); border-left: 3px solid var(--terra); font-style: italic; font-weight: 300; font-size: 0.95rem; color: var(--terra); }
+
+/* ══ FOOTER ══ */
+footer { background: #1C0C04; padding: 2.8rem 2rem; text-align: center; }
+.f-logo-wrap { display: flex; justify-content: center; margin-bottom: 1.1rem; }
+.footer-names { font-size: 1.35rem; font-weight: 600; color: #C8693A; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+
+.footer-meta { font-size: clamp(0.55rem, 1.8vw, 0.72rem); letter-spacing: 0.42em; text-transform: uppercase; color: #E8D0B0; opacity: 0.75; }
+
+/* ══ RESPONSIVE MOBILE FIRST ══ */
+/* ══ MOBILE FIRST — max 580px ══ */
+@media(max-width:580px){
+  /* NAV */
+  nav { padding: 0 1rem; height: 48px; }
+  nav ul { gap: 1.2rem; }
+  nav ul li:nth-child(n+3) { display: none; }
+  .nav-logo { font-size: 0.55rem; gap: 0.4rem; }
+
+  /* COVER */
+  .cover-block { padding: 1.4rem 1.1rem 1.2rem; width: min(94vw, 360px); }
+  .cover-title { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+  .cover-dash { font-size: 0.35em; }
+  .cover-sep { margin: 1.2rem 0 1rem; }
+  .cover-btn { padding: 0.72rem 1.6rem; font-size: 0.6rem; }
+  .logo-svg-cover { width: 32px; height: 44px; }
+
+  /* PHOTO 1 */
+  .photo1-wrap { padding: 1.5rem 1rem; }
+  .photo1 { width: min(90vw, 380px); }
+
+  /* NOMS */
+  .names-sec { padding: 2.2rem 1.2rem 2rem; }
+  .names-display { font-size: clamp(2rem, 12vw, 3.2rem); }
+  .names-dates { gap: 1.2rem; margin-top: 1.8rem; }
+  .nd-sep { display: none; }
+  .nd-num { font-size: clamp(1.5rem, 8vw, 2.2rem); }
+
+  /* FAIRE-PART */
+  .fairepart { padding: 2rem 1.2rem; }
+  .fp-fams { flex-direction: column; align-items: center; gap: 1rem; }
+  .fp-fam { text-align: center; }
+  .fp-events { flex-direction: column; align-items: center; gap: 1.2rem; }
+  .fp-names-big { font-size: 1.25rem; }
+
+  /* MAIRIE — 2 colonnes compactes sur mobile */
+  .mairie-sec { padding: 2rem 1rem; }
+  .two-col { grid-template-columns: 1fr 1fr; gap: 0; }
+  .two-col-left { padding-right: 0.8rem; }
+  .two-col-right { padding-left: 0.8rem; }
+  .info-key { width: 46px; font-size: 0.48rem; letter-spacing: 0.14em; }
+  .info-val { font-size: 0.82rem; }
+  .s-title { font-size: 1.25rem; margin-bottom: 1.2rem; }
+
+  /* HOUPPA */
+  .houppa-sec { padding: 2rem 1rem; }
+  .houppa-content { grid-template-columns: 1fr; gap: 1rem; }
+  .houppa-card { padding: 1.3rem 1rem; }
+  .nav-btns { gap: 0.6rem; }
+  .maps-btn { padding: 0.6rem 1rem; font-size: 0.6rem; }
+
+  /* PHOTOS */
+  .photo2-wrap { padding: 1.8rem 1rem; }
+  .photo2 { width: min(82vw, 290px); }
+
+  /* RSVP */
+  .rsvp-sec { padding: 2rem 1rem; }
+  .f-row { grid-template-columns: 1fr; gap: 2px; }
+  .f-cell { padding: 0.85rem 1rem 0.7rem; }
+  .pres-grp { padding: 1.1rem 1rem; }
+  .r-lbl { font-size: 0.82rem; padding: 0.6rem 0.6rem; }
+  .btn-send { width: 100%; justify-content: center; padding: 0.9rem; }
+
+  /* FOOTER */
+  footer { padding: 2rem 1.2rem; }
+  .logo-svg-lg { width: 40px; height: 56px; }
+  .footer-names { font-size: 1.1rem; }
+}
+
+/* ══ TABLETTE — 581px à 820px ══ */
+@media(min-width:581px) and (max-width:820px){
+  nav { padding: 0 1.5rem; }
+  nav ul li:nth-child(n+4) { display: none; }
+  .cover-title { font-size: clamp(2.8rem, 9vw, 5rem); }
+  .houppa-content { grid-template-columns: 1fr; gap: 1.5rem; }
+  .fp-fams, .fp-events { gap: 2rem; }
+  .photo1 { width: min(88vw, 520px); }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div id="cover">
+  <div class="cover-block">
+    <div class="cover-label">Mariage 2026</div>
+    <div class="cover-title">
+      Laetitia
+      <span class="cover-dash">—</span>
+      Ruben
+    </div>
+    <div class="cover-date">6 Juillet · 3 Septembre · 2026</div>
+    <div class="cover-sep"></div>
+    <button class="cover-btn" onclick="open_inv()">
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="0.65" y="0.65" width="13.7" height="9.7" rx="1.2"/>
+        <path d="M0.65 2L7.5 6.2L14.35 2"/>
+      </svg>
+      Ouvrir l'invitation
+    </button>
+    <div class="cover-line"></div>
+  </div>
+
+  <!-- Logo LR en bas de la cover -->
+  <div class="cover-logo-bottom" id="coverLogo">
+    <svg class="logo-svg-cover" viewBox="0 0 130 200" fill="none" style="color:#E8D0B0;">
+      <line x1="44" y1="18" x2="44" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 44 18 Q 116 18 116 72 Q 116 118 44 122" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="78" y1="122" x2="120" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="44" y1="188" x2="96" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <svg class="logo-svg-sm" viewBox="0 0 130 200" fill="none">
+      <line x1="44" y1="18" x2="44" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 44 18 Q 116 18 116 72 Q 116 118 44 122" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="78" y1="122" x2="120" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="44" y1="188" x2="96" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+    Laetitia — Ruben
+  </a>
+  <ul>
+    <li><a href="#mairie">Mairie</a></li>
+    <li><a href="#houppa">Houppa</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+  </ul>
+</nav>
+
+<!-- ══ PHOTO 1 encadrée — apparaît après le slide, comme la photo 2 ══ -->
+<div class="photo1-wrap">
+  <div class="photo1"><div></div></div>
+</div>
+
+<!-- ══ NOMS ══ -->
+<div class="names-sec">
+  <div class="beit-ha">ב״ה</div>
+  <div class="names-eyebrow">Mariage 2026</div>
+  <div class="names-display">Laetitia</div>
+  <span class="names-sep"></span>
+  <div class="names-display">Ruben</div>
+  <div class="names-dates">
+    <div class="nd"><div class="nd-num">06</div><span class="nd-month">Juillet</span></div>
+    <div class="nd-sep"></div>
+    <div class="nd"><div class="nd-num">03</div><span class="nd-month">Septembre</span></div>
+  </div>
+</div>
+
+<!-- ══ FAIRE-PART ══ -->
+<div class="fairepart">
+  <div class="fp">
+    <div class="fp-fams">
+      <div class="fp-fam">Rafke et Gilbert Furcage-Hakker<br>Julie et Philippe Tanji</div>
+      <div class="fp-fam">Claudine Bouanan<br>Salomon Cohen</div>
+    </div>
+    <hr class="fp-hr">
+    <p class="fp-joy">Ont la joie de vous faire part du mariage de leurs enfants et petits-enfants</p>
+    <p class="fp-names-big">Laetitia — Ruben</p>
+    <div class="fp-names-line"></div>
+    <p class="fp-names-heb">מַלְכָּה &amp; מֹשֶׁה</p>
+    <hr class="fp-hr">
+    <div class="fp-events">
+      <div>
+        <div class="fp-ev-name">Mariage civil</div>
+        <div class="fp-ev-detail">Le lundi <strong>6 juillet 2026 à 14h30</strong><br>Mairie d'Écully · suivi de la réception</div>
+      </div>
+      <div>
+        <div class="fp-ev-name">La Houppa</div>
+        <div class="fp-ev-detail">Le jeudi <strong>3 septembre 2026 à 16h</strong><br>Domaine de Noé · suivi de la soirée</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIRIE ══ -->
+<div class="mairie-sec" id="mairie">
+  <div class="two-col">
+    <div class="two-col-left">
+      <div class="s-label">Lundi 6 Juillet 2026</div>
+      <h2 class="s-title">La Mairie</h2>
+      <div class="info-block">
+        <div class="info-row"><div class="info-key">Heure</div><div class="info-val">14h30</div></div>
+        <div class="info-row"><div class="info-key">Lieu</div><div class="info-val">Mairie d'Écully<br>Place de la Libération, 69130</div></div>
+      </div>
+    </div>
+    <div class="two-col-right">
+      <div class="two-col-right-inner">
+        <div style="height:1.8rem;"></div><!-- alignement avec s-label gauche -->
+        <h2 class="s-title">After-Mairie</h2>
+        <div class="info-block">
+          <div class="info-row"><div class="info-key">Lieu</div><div class="info-val">46 Chemin du Tronchon<br>Écully</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HOUPPA ══ -->
+<div class="houppa-sec" id="houppa">
+  <div class="houppa-content">
+    <div class="houppa-card">
+      <div class="s-label">Jeudi 3 Septembre 2026</div>
+      <h2 class="s-title">La Houppa</h2>
+      <div class="info-block">
+        <div class="info-row"><div class="info-key">Heure</div><div class="info-val">16h00</div></div>
+        <div class="info-row"><div class="info-key">Lieu</div><div class="info-val">Domaine de Noé<br>7539 Route de Vinon<br>Saint-Julien, 83560</div></div>
+        <div class="info-row"><div class="info-key">Suite</div><div class="info-val">Suivi de la soirée</div></div>
+      </div>
+    </div>
+    <div class="houppa-card">
+      <div class="s-label">Domaine de Noé</div>
+      <h2 class="s-title">Accès</h2>
+      <a href="https://domainenoe.fr/" target="_blank" style="display:inline-block;margin-bottom:1.2rem;font-family:var(--f);font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--terra);text-decoration:none;border-bottom:1px solid rgba(200,105,58,0.35);padding-bottom:2px;">domainenoe.fr ↗</a>
+      <p style="font-style:italic;font-weight:300;font-size:0.9rem;color:var(--muted);line-height:1.85;margin-bottom:1.3rem;">
+        Au cœur de la Provence.<br>
+        À 30 min du centre d'Aix-en-Provence<br>
+        et 45 min de l'aéroport de Marseille.
+      </p>
+      <div class="nav-btns">
+        <a class="maps-btn" href="https://www.google.com/maps/search/7539+Route+de+Vinon+Saint-Julien+83560" target="_blank">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Google Maps
+        </a>
+        <a class="maps-btn" href="https://waze.com/ul?q=7539+Route+de+Vinon+Saint-Julien+83560&navigate=yes" target="_blank">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Waze
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PHOTO 2 ══ -->
+<div class="photo2-wrap">
+  <div class="photo2"><div></div></div>
+</div>
+
+<!-- ══ RSVP ══ -->
+<div class="rsvp-sec" id="rsvp">
+  <div class="rsvp-wrap">
+    <div class="s-label">Répondre</div>
+    <h2 class="s-title">Confirmez votre présence</h2>
+    <p class="rsvp-intro">Merci de nous faire part de votre réponse afin que nous puissions organiser au mieux ces deux journées.</p>
+    <p class="rsvp-dl">Réponse attendue avant le 31 mai 2026</p>
+    <form id="rsvpForm">
+      <div class="f-row" style="margin-bottom:2px;">
+        <div class="f-cell"><label class="f-lbl">Prénom</label><input class="f-in" type="text" name="prenom" placeholder="Votre prénom" required></div>
+        <div class="f-cell"><label class="f-lbl">Nom</label><input class="f-in" type="text" name="nom" placeholder="Votre nom" required></div>
+      </div>
+      <div class="f-row" style="margin-bottom:2px;">
+        <div class="f-cell full"><label class="f-lbl">Email</label><input class="f-in" type="email" name="email" placeholder="votre@email.com"></div>
+      </div>
+      <div class="pres-grp">
+        <div class="pres-title">Mairie d'Écully <span>· 6 juillet 2026</span></div>
+        <div class="r-opts">
+          <label class="r-lbl"><input type="radio" name="presence_mairie" value="Oui, je serai présent(e)" onchange="tog('mg',true)"> Nous serons présents</label>
+          <div class="guests-show" id="mg"><span class="g-lbl">Nombre de personnes</span><input type="number" class="g-in" name="nb_personnes_mairie" min="1" max="20" placeholder="1"></div>
+          <label class="r-lbl"><input type="radio" name="presence_mairie" value="Non, je ne serai pas là" onchange="tog('mg',false)"> Nous ne serons pas là</label>
+        </div>
+      </div>
+      <div class="pres-grp" style="margin-top:2px;">
+        <div class="pres-title">La Houppa <span>· 3 septembre 2026</span></div>
+        <div class="r-opts">
+          <label class="r-lbl"><input type="radio" name="presence_houppa" value="Oui, je serai présent(e)" onchange="tog('hg',true)"> Nous serons présents</label>
+          <div class="guests-show" id="hg"><span class="g-lbl">Nombre de personnes</span><input type="number" class="g-in" name="nb_personnes_houppa" min="1" max="20" placeholder="1"></div>
+          <label class="r-lbl"><input type="radio" name="presence_houppa" value="Non, je ne serai pas là" onchange="tog('hg',false)"> Nous ne serons pas là</label>
+        </div>
+      </div>
+      <div class="f-row" style="margin-bottom:0;">
+        <div class="f-cell full"><label class="f-lbl">Un message pour les mariés</label><textarea class="f-in" name="message" placeholder=""></textarea></div>
+      </div>
+      <button type="submit" class="btn-send">Envoyer ma réponse</button>
+      <div class="ok-msg" id="okMsg">Merci — on a hâte de vous retrouver 🤍</div>
+    </form>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="f-logo-wrap">
+    <svg class="logo-svg-lg" viewBox="0 0 130 200" fill="none" style="color:#C8693A;opacity:0.7;">
+      <line x1="44" y1="18" x2="44" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 44 18 Q 116 18 116 72 Q 116 118 44 122" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="78" y1="122" x2="120" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <line x1="44" y1="188" x2="96" y2="188" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="footer-names">Laetitia — Ruben</div>
+  <div class="footer-meta">6 juillet 2026 · Écully &nbsp;·&nbsp; 3 septembre 2026 · Provence</div>
+</footer>
+
+<script>
+function open_inv() {
+  const cover = document.getElementById('cover');
+  const block = cover.querySelector('.cover-block');
+  const logo  = document.getElementById('coverLogo');
+  const line  = cover.querySelector('.cover-line');
+  // Étape 1 — bloc + logo disparaissent
+  block.style.opacity = '0';
+  if(logo) logo.style.opacity = '0';
+  if(line) line.style.opacity = '0';
+  // Étape 2 — voile s'estompe, photo visible seule
+  setTimeout(() => cover.classList.add('revealing'), 400);
+  // Étape 3 — slide vers le haut
+  setTimeout(() => {
+    cover.classList.add('slide-up');
+    document.getElementById('nav').classList.add('visible');
+  }, 2300);
+  // Étape 4 — retrait du DOM
+  setTimeout(() => cover.classList.add('gone'), 3500);
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+function tog(id, show) { document.getElementById(id).classList.toggle('on', show); }
+
+document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this;
+  const data = new FormData(form);
+  const obj = {};
+  data.forEach((v, k) => obj[k] = v);
+
+  fetch('https://script.google.com/macros/s/AKfycbxe2NLQ2qoF4SNDVGqsfdloBTxHC0RGflTZCp5eFab7pLTItHqHcbEYHw0ak5Fta9uPag/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(obj)
+  }).then(() => {
+    document.getElementById('okMsg').style.display = 'block';
+    form.style.opacity = '0.35';
+    form.style.pointerEvents = 'none';
+    document.getElementById('okMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }).catch(() => {
+    document.getElementById('okMsg').style.display = 'block';
+    form.style.opacity = '0.35';
+    form.style.pointerEvents = 'none';
+  });
+});
+</script>
+</body>
+</html>
